@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trello</title>
+    <!-- <link rel="stylesheet" href="index.css"> -->
+    <style>
+        #mainHeading {
+            text-align: center;
+            position: absolute;
+            top: 5%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        #secondaryHeading{
+            position: absolute;
+            top: 15%;
+            left: 10%;
+        }
+        /* Center the form on the page */
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            position: absolute;
+            top: 32%;
+            left: 30%;
+        }
+
+          /* Style the form fields */
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        input, textarea {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 0.25rem;
+        }
+          /* Style the submit button */
+        button[type="submit"] {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+        }   
+
+        button[type="submit"]:hover {
+            background-color: #0069d9;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="mainHeading">Welcome on board</h1>
+    <h2 id="secondaryHeading">Create a new task:</h2>
+
+    <form method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter a name for the task" required> <br>
+  
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" placeholder="Enter a description for the task"></textarea> <br>
+    
+        <label for="dueDate">Due date:</label>
+        <input type="date" id="dueDate" name="dueDate"> <br>
+    
+        <label for="startDate">Start date:</label>
+        <input type="date" id="startDate" name="startDate"><br>
+  
+        <button type="submit" onclick="submitForm()">Submit</button>
+    </form>
+
+    <script>
+        function submitForm(){
+
+            var name = document.getElementById("name").value;
+            var description = document.getElementById("description").value;
+            var dueDate = document.getElementById("dueDate").value;
+            var startDate = document.getElementById("startDate").value;
+
+            const card = {
+                "name" : name,
+                "desc" : description,
+                "due" : dueDate,
+                "start" : startDate
+            }
+
+            console.log(card);
+            fetch("/api/todo/create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(card),
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("Response data:", data);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+  
+ 
+
+
+
